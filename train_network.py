@@ -64,6 +64,8 @@ tf.app.flags.DEFINE_integer(
     'The frequency with which the model is saved, in seconds.')
 tf.app.flags.DEFINE_float(
     'gpu_memory_fraction', 0.8, 'GPU memory fraction to use.')
+tf.app.flags.DEFINE_boolean(
+    'gpu_allow_growth', False, 'GPU allow growth.')
 
 # =========================================================================== #
 # Optimization Flags.
@@ -363,7 +365,8 @@ def main(_):
         # =================================================================== #
         # Kicks off the training.
         # =================================================================== #
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=FLAGS.gpu_memory_fraction)
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=FLAGS.gpu_memory_fraction,
+                                    allow_growth = FLAGS.gpu_allow_growth)
         config = tf.ConfigProto(log_device_placement=True,
                                 gpu_options=gpu_options)
         saver = tf.train.Saver(max_to_keep=5,
