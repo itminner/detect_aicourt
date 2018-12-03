@@ -26,6 +26,15 @@ slim = tf.contrib.slim
 # =========================================================================== #
 # General tools.
 # =========================================================================== #
+def flatten(x):
+    result = []
+    for el in x:
+        if isinstance(el, tuple):
+            result.extend(flatten(el))
+        else:
+            result.append(el)
+    return result
+
 def reshape_list(l, shape=None):
     """Reshape list of (list): 1D to 2D or the other way around.
 
