@@ -98,8 +98,9 @@ tf.app.flags.DEFINE_float(
 tf.app.flags.DEFINE_float(
     'gpu_memory_fraction', 0.1, 'GPU memory fraction to use.')
 tf.app.flags.DEFINE_boolean(
+    'gpu_allow_growth', False, 'GPU allow growth.')
+tf.app.flags.DEFINE_boolean(
     'wait_for_checkpoints', False, 'Wait for new checkpoints in the eval loop.')
-
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -291,7 +292,8 @@ def main(_):
         # =================================================================== #
         # Evaluation loop.
         # =================================================================== #
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=FLAGS.gpu_memory_fraction)
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=FLAGS.gpu_memory_fraction,
+                                    allow_growth=FLAGS.gpu_allow_growth)
         config = tf.ConfigProto(log_device_placement=False, gpu_options=gpu_options)
         # config.graph_options.optimizer_options.global_jit_level = tf.OptimizerOptions.ON_1
 
